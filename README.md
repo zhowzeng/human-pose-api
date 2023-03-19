@@ -51,7 +51,9 @@
 python main.py
 ```
 
-Visit http://127.0.0.1:8000/docs to use swagger UI
+Visit http://127.0.0.1:8000/docs for swagger UI.
+
+You can also send requests by `curl` tool or python `requests` package.
 
 ## Official demo
 

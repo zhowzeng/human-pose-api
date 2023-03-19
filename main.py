@@ -55,7 +55,7 @@ class ImagePath(BaseModel):
 
 
 class Keypoints(BaseModel):
-    keypoints: Any  # List[List[float]]
+    keypoints:  List[List[float]]
     score: float
     area: float
 
@@ -70,15 +70,15 @@ async def startup_event():
     POSE_MODEL = init_pose_model(config_file, checkpoint_file, device='cpu')  # or device='cuda:0'
 
 
-@app.post('/v1/pose/2d/string', response_model=List[Keypoints])
-async def post_string_and_get_2d(req: ImageString) -> None:
+@app.post('/v1/keypoints/2d/string', response_model=List[Keypoints])
+async def post_string_and_get_2d_keypoints(req: ImageString) -> None:
     im_arr = b64_to_cv(req.string)
     pose_results, _ = inference_bottom_up_pose_model(POSE_MODEL, im_arr)
     return [Keypoints(**process_result(res)) for res in pose_results]
 
 
-@app.post('/v1/pose/2d/path', response_model=List[Keypoints])
-async def post_path_and_get_2d(req: ImagePath) -> None:
+@app.post('/v1/keypoints/2d/path', response_model=List[Keypoints])
+async def post_path_and_get_2d_keypoints(req: ImagePath) -> None:
     pose_results, _ = inference_bottom_up_pose_model(POSE_MODEL, req.path)
     return [Keypoints(**process_result(res)) for res in pose_results]
 
@@ -90,7 +90,7 @@ def process_result(result: dict) -> dict:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--host', type=str, default='0.0.0.0')
+    parser.add_argument('--host', type=str, default='127.0.0.1')
     parser.add_argument('--port', type=int, default=8000)
     parser.add_argument('--reload', action="store_true")
     args = parser.parse_args()
