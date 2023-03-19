@@ -8,6 +8,7 @@
 - [x] Implement fastapi server
 - [ ] Return 2d -> 3d
 - [ ] Containerize
+- [ ] Documentation for API
 
 ## Installation
 
