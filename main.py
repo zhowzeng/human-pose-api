@@ -1,15 +1,14 @@
 import argparse
 import logging
 import logging.config
-import pdb
-from typing import Any, List
+from typing import List
 
 import uvicorn
 import yaml
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mmpose.apis import (inference_bottom_up_pose_model, init_pose_model,
-                         vis_pose_result)
+from mmpose.apis import inference_bottom_up_pose_model, init_pose_model
+
 from pydantic import BaseModel
 from utils import b64_to_cv, read_by_b64
 from version import __version__
@@ -55,7 +54,7 @@ class ImagePath(BaseModel):
 
 
 class Keypoints(BaseModel):
-    keypoints:  List[List[float]]
+    keypoints: List[List[float]]
     score: float
     area: float
 
