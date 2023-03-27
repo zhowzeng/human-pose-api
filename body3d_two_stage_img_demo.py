@@ -6,14 +6,15 @@ from argparse import ArgumentParser
 
 import mmcv
 import numpy as np
-from xtcocotools.coco import COCO
-
 from mmpose.apis import (inference_pose_lifter_model,
                          inference_top_down_pose_model, vis_3d_pose_result)
 from mmpose.apis.inference import init_pose_model
 from mmpose.core.bbox import bbox_xywh2xyxy
 from mmpose.core.camera import SimpleCamera
 from mmpose.datasets import DatasetInfo
+from xtcocotools.coco import COCO
+
+from utils import convert_keypoint_definition
 
 
 def _keypoint_camera_to_world(keypoints,
@@ -125,6 +126,11 @@ def main():
 
     coco = COCO(args.json_file)
 
+    pose_lift_model = init_pose_model(
+        args.pose_lifter_config,
+        args.pose_lifter_checkpoint,
+        device=args.device.lower())
+
     # First stage: 2D pose detection
     pose_det_results_list = []
     if args.only_second_stage:
@@ -195,23 +201,26 @@ def main():
                 image_name,
                 person_results,
                 bbox_thr=None,
-                format='xywh',
+                format='xyxy',
                 dataset=dataset,
                 dataset_info=dataset_info,
                 return_heatmap=False,
                 outputs=None)
 
+            print(pose_det_results)
+
             for res in pose_det_results:
                 res['image_name'] = image_name
+                keypoints = res['keypoints']
+                res['keypoints'] = convert_keypoint_definition(
+                    keypoints,
+                    pose_det_model.cfg.data['test']['type'],
+                    pose_lift_model.cfg.data['test']['type']
+                )
             pose_det_results_list.append(pose_det_results)
 
     # Second stage: Pose lifting
     print('Stage 2: 2D-to-3D pose lifting.')
-
-    pose_lift_model = init_pose_model(
-        args.pose_lifter_config,
-        args.pose_lifter_checkpoint,
-        device=args.device.lower())
 
     assert pose_lift_model.cfg.model.type == 'PoseLifter', 'Only' \
         '"PoseLifter" model is supported for the 2nd stage ' \
@@ -241,6 +250,8 @@ def main():
             dataset=dataset,
             dataset_info=dataset_info,
             with_track_id=False)
+
+        print(pose_lift_results)
 
         image_name = pose_det_results[0]['image_name']
 
@@ -282,7 +293,8 @@ def main():
             out_file = None
         else:
             os.makedirs(args.out_img_root, exist_ok=True)
-            out_file = osp.join(args.out_img_root, f'vis_{i}.jpg')
+            out_file = osp.join(
+                args.out_img_root, f"vis_{os.path.basename(image_name).split('.')[0]}_{i}.jpg")
 
         vis_3d_pose_result(
             pose_lift_model,

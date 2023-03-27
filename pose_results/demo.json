@@ -1,0 +1,155 @@
+{
+    "categories": [
+        {
+            "supercategory": "person",
+            "id": 1,
+            "name": "person",
+            "keypoints": [
+                "root (pelvis)",
+                "left_hip",
+                "left_knee",
+                "left_foot",
+                "right_hip",
+                "right_knee",
+                "right_foot",
+                "spine",
+                "thorax",
+                "neck_base",
+                "head",
+                "left_shoulder",
+                "left_elbow",
+                "left_wrist",
+                "right_shoulder",
+                "right_elbow",
+                "right_wrist"
+            ],
+            "skeleton": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    1,
+                    2
+                ],
+                [
+                    2,
+                    3
+                ],
+                [
+                    0,
+                    4
+                ],
+                [
+                    4,
+                    5
+                ],
+                [
+                    5,
+                    6
+                ],
+                [
+                    0,
+                    7
+                ],
+                [
+                    7,
+                    8
+                ],
+                [
+                    8,
+                    9
+                ],
+                [
+                    9,
+                    10
+                ],
+                [
+                    8,
+                    11
+                ],
+                [
+                    11,
+                    12
+                ],
+                [
+                    12,
+                    13
+                ],
+                [
+                    8,
+                    14
+                ],
+                [
+                    14,
+                    15
+                ],
+                [
+                    15,
+                    16
+                ]
+            ]
+        }
+    ],
+    "images": [
+        {
+            "file_name": "toyz.png",
+            "height": 680,
+            "width": 1200,
+            "id": 1
+        },
+        {
+            "file_name": "breaking_bad.jpg",
+            "height": 1000,
+            "width": 1600,
+            "id": 2
+        },
+        {
+            "file_name": "S1_Directions_1.54138969_000001.jpg",
+            "height": 1002,
+            "width": 1001,
+            "id": 3
+        }
+    ],
+    "annotations": [
+        {
+            "id": 1,
+            "category_id": 1,
+            "image_id": 1,
+            "iscrowd": 0,
+            "bbox": [
+                439.31238,
+                139.18661,
+                896.9989,
+                676.28204
+            ],
+            "num_keypoints": 17
+        },
+        {
+            "id": 2,
+            "category_id": 1,
+            "image_id": 2,
+            "iscrowd": 0,
+            "bbox": [
+                439.31238,
+                139.18661,
+                896.9989,
+                676.28204
+            ],
+            "num_keypoints": 17
+        },
+        {
+            "id": 3,
+            "category_id": 1,
+            "image_id": 3,
+            "iscrowd": 0,
+            "bbox": [
+                403.97986,
+                277.6016,
+                534.6143,
+                643.4807
+            ],
+            "num_keypoints": 17
+        }
+    ]
+}
