@@ -4,9 +4,7 @@
 
 ## TODO
 
-- [x] Run 2d demo
 - [x] Implement fastapi server
-- [ ] Return 2d -> 3d
 - [ ] Containerize
 - [ ] Documentation for API
 
@@ -16,35 +14,18 @@
     ```bash
     python3 -m venv venv  # will mkdir venv automatically
     source venv/bin/activate  # activate environment. to leave venv, run `deactivate`
-    pip install -U pip
+    pip install -U pip setuptools
     ```
 
-2. Follow this [link](https://pytorch.org/get-started/locally/) to install PyTorch GPU/CPU version. For me, `torch==2.0.0`.
+1. Follow this [link](https://pytorch.org/get-started/locally/) to install PyTorch & Torchvision GPU/CPU version.
 
-3. Install dependencies for MMPose.
-
-    ```bash
-    pip install -U openmim==0.3.6
-    mim install mmcv-full==1.7.0
-    mim install mmengine==0.7.0
-    pip install mmpose==0.29.0
-    ```
-
-4. Install other requirements.
+1. Install other requirements.
     ```bash
     pip install -r requirements.txt
     ```
 
-5. Fix deprecated error of mmpose.
+1. Follow this [link](https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/INSTALL.md). For `PyTypeTest on non extension type` error, visit [this issue](https://github.com/MVIG-SJTU/AlphaPose/issues/1002).
 
-    Edit file `./venv/lib/python3.8/site-packages/mmpose/datasets/pipelines/bottom_up_transform.py` and add one line.
-    ```diff
-    + 13 np.int = int
-
-      15 def _ceil_to_multiples_of(x, base=64):
-      16     """Transform x to the integral multiple of the base."""
-      17     return int(np.ceil(x / base)) * base
-    ```
 
 ## Launch API
 
